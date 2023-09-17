@@ -18,17 +18,12 @@ kick_message = {}# сообщение кика
 vote = {}#колво голосов голосования
 stats = ["возраст","пол","тип телосложения","рост","работу","фобия","состояние здоровья","хобби","черту характера","инвентарь"]#Название статов
 stats_id = [0,1,2,3,4,5,6,7,8,9]
-
+startgame = False
 print(config.commands())
 
 def randomizer(probabilities):
-    # Получить сумму всех значений вероятностей
     total = sum(probabilities.values())
-
-    # Сгенерировать случайное число от 0 до суммы вероятностей
     rand_num = random.uniform(0, total)
-
-    # Итерироваться по вероятностям и возвращать соответствующее значение
     cumulative_sum = 0
     for key, value in probabilities.items():
         cumulative_sum += value
@@ -36,82 +31,103 @@ def randomizer(probabilities):
             return key
 
 def choice():
-    global people, people_status, nick_name, vote
-    bot.send_message(config.chat_id(),"Игра началась!")
-    for i in range(0,len(people)):
-        bot.send_message(people[i],"Игра началась!")
-        inventory0 = game.inventory()
-        inventory = [inventory0[random.randint(0,len(inventory0) - 1)],0]#предмет 
-        sex0 = game.sex()
-        sex = [sex0[random.randint(0,len(sex0) - 1)],0]#пол
-        age = [random.randint(18,60),0]#возраст
-        body_type0 = game.body_type()
-        body_type = [body_type0[random.randint(0,len(body_type0) - 1)],0]#телосложение
-        height = [random.randint(150,200),0]
-        hobby0 = game.hobby()
-        hobby = [hobby0[random.randint(0,len(hobby0) - 1)],0]#хобби
-        phobia0 = game.phobia()
-        phobia = [phobia0[random.randint(0,len(phobia0) - 1)],0]#фобия
-        phobia_explanation0 = game.phobia_explanation()
-        phobia_explanation = phobia_explanation0[phobia[0]]#фобия пояснение
-        probabilities = {'A': 0.6, 'B': 0.4}
-        health0 = game.health()
-        health = [health0[random.randint(0,49)] if randomizer(probabilities) == "B" else "Здоров",0]
-        trait0 = game.trait()
-        trait = [trait0[random.randint(0,len(trait0) - 1)],0]#черта характера
-        work0 = game.work()
-        work = [work0[random.randint(0,len(work0) - 1)],0]#работа
-        work_explanation0 = game.work_explanation()
-        work_explanation = work_explanation0[work[0]]#работа пояснение
-        people_status[people[i]] = [age,sex,body_type,height,work,phobia,health,hobby,trait,inventory,work_explanation,phobia_explanation]
-        bot.send_message(people[i],config.personal_message(people_status[people[i]]))
-    for i in range(0, len(people)):
-        chat = bot.get_chat_member(people[i],people_message[people[i]])
-        username = chat.user.username
-        nick_name.append(username)
-        message = bot.send_message(config.chat_id(),config.global_message(username,people_status[people[i]]))
-        global_message[people[i]] = message.message_id
-keyboard.add_hotkey("ctrl+space", choice)
+    global people, people_status, nick_name, vote, startgame
+    if startgame == False:
+        if len(people) == 0:
+            print(config.error.emptyplayerlist())
+        else:
+            bot.send_message(config.chat_id(),"Игра началась!")
+            for i in range(0,len(people)):
+                bot.send_message(people[i],"Игра началась!")
+                inventory0 = game.inventory()
+                inventory = [inventory0[random.randint(0,len(inventory0) - 1)],0]#предмет 
+                sex0 = game.sex()
+                sex = [sex0[random.randint(0,len(sex0) - 1)],0]#пол
+                age = [random.randint(18,60),0]#возраст
+                body_type0 = game.body_type()
+                body_type = [body_type0[random.randint(0,len(body_type0) - 1)],0]#телосложение
+                height = [random.randint(150,200),0]
+                hobby0 = game.hobby()
+                hobby = [hobby0[random.randint(0,len(hobby0) - 1)],0]#хобби
+                phobia0 = game.phobia()
+                phobia = [phobia0[random.randint(0,len(phobia0) - 1)],0]#фобия
+                phobia_explanation0 = game.phobia_explanation()
+                phobia_explanation = phobia_explanation0[phobia[0]]#фобия пояснение
+                probabilities = {'A': 0.6, 'B': 0.4}
+                health0 = game.health()
+                health = [health0[random.randint(0,49)] if randomizer(probabilities) == "B" else "Здоров",0]
+                trait0 = game.trait()
+                trait = [trait0[random.randint(0,len(trait0) - 1)],0]#черта характера
+                work0 = game.work()
+                work = [work0[random.randint(0,len(work0) - 1)],0]#работа
+                work_explanation0 = game.work_explanation()
+                work_explanation = work_explanation0[work[0]]#работа пояснение
+                people_status[people[i]] = [age,sex,body_type,height,work,phobia,health,hobby,trait,inventory,work_explanation,phobia_explanation]
+                bot.send_message(people[i],config.personal_message(people_status[people[i]]))
+            for i in range(0, len(people)):
+                chat = bot.get_chat_member(people[i],people_message[people[i]])
+                username = chat.user.username
+                nick_name.append(username)
+                message = bot.send_message(config.chat_id(),config.global_message(username,people_status[people[i]]))
+                global_message[people[i]] = message.message_id
+                startgame = True
+    else:
+        print(config.error.startgame())
 
 def menu():
-    global stats
-    for i in range(0,len(people)):
-        keyboard = types.InlineKeyboardMarkup()
-        stats_user = people_status[people[i]]
-        for n in range(0,len(stats)):
-            if stats_user[n][1] == 0:
-                keyboard.add(types.InlineKeyboardButton(text=f"Открыть {stats[n]}", callback_data=stats[n]))
-        bot.send_message(people[i], "Меню взаимодействий:", reply_markup=keyboard)
-        keyboard = 0
-keyboard.add_hotkey("ctrl+1",menu)
+    global stats, startgame
+    if startgame == False:
+        print(config.error.dontstartgame())
+    else:
+        for i in range(0,len(people)):
+            keyboard = types.InlineKeyboardMarkup()
+            stats_user = people_status[people[i]]
+            for n in range(0,len(stats)):
+                if stats_user[n][1] == 0:
+                    keyboard.add(types.InlineKeyboardButton(text=f"Открыть {stats[n]}", callback_data=stats[n]))
+            bot.send_message(people[i], "Меню взаимодействий:", reply_markup=keyboard)
+            keyboard = 0
 
 def vote_menu():
-    global kick_message
-    for i in range(0,len(people)):
-        keyboard0 = types.InlineKeyboardMarkup()
-        for n in range(0,len(people)):
-            chat = bot.get_chat_member(people[i],people_message[people[i]])
-            username = chat.user.username
-            keyboard0.add(types.InlineKeyboardButton(text=f"{username}", callback_data=username))
-        msg = bot.send_message(people[i], "Кого вы хотите кикнуть?:", reply_markup=keyboard0)
-        kick_message[people[i]] = msg.message_id
-        keyboard0 = 0
-keyboard.add_hotkey("ctrl+2", vote_menu)
+    global kick_message, startgame
+    if startgame == False:
+        print(config.error.dontstartgame())
+    else:
+        for i in range(0,len(people)):
+            keyboard0 = types.InlineKeyboardMarkup()
+            for n in range(0,len(people)):
+                chat = bot.get_chat_member(people[i],people_message[people[i]])
+                username = chat.user.username
+                keyboard0.add(types.InlineKeyboardButton(text=f"{username}", callback_data=username))
+            msg = bot.send_message(people[i], "Кого вы хотите кикнуть?:", reply_markup=keyboard0)
+            kick_message[people[i]] = msg.message_id
+            keyboard0 = 0
 
 def kick():
-    global vote,people,nick_name
-    max_votes = max(vote.values())  # Наибольшее количество голосов
-    max_indices = [i for i, v in vote.items() if v == max_votes]  # Индексы наибольших элементов
-    print(max_indices)  # Индексы наибольших элементов
-    for index in max_indices:
-        print("Игрок", index, "был выбран голосованием")
-    kick = int(input("Введите номер игрока, который будет изгнан")) - 1
-    kick_index = nick_name.index(max_indices[int(kick)])
-    bot.send_message(people[kick_index],config.personal_lose())
-    bot.send_message(config.chat_id(),config.global_lose(nick_name[kick_index]))
-    people.remove(people[kick_index])
-    nick_name.remove(nick_name[kick_index])
-keyboard.add_hotkey("ctrl+3",kick)
+    global vote,people,nick_name, startgame
+    if startgame == False:
+        print(config.error.dontstartgame())
+    else:
+        try:
+            max_votes = max(vote.values())  # Наибольшее количество голосов
+            max_indices = [i for i, v in vote.items() if v == max_votes]  # Индексы наибольших элементов
+            print("Чтобы отменить голосование нажмите 0")
+            print("Игроки выбранные голосованием:")
+            for index in max_indices:
+                print(max_indices.index(index) + 1, index)
+            kick = int(input("Введите номер игрока, который будет изгнан")) - 1
+            if kick == -1:
+                print("Голосование было пропушено")
+                vote = {}
+            else:
+                kick_index = nick_name.index(max_indices[int(kick)])
+                bot.send_message(people[kick_index],config.personal_lose())
+                bot.send_message(config.chat_id(),config.global_lose(nick_name[kick_index]))
+                people.remove(people[kick_index])
+                nick_name.remove(nick_name[kick_index])
+                vote = {}
+        except Exception:
+            print(config.error.emptyvotelist())
 
 
 @bot.message_handler(commands=["check"])
@@ -121,8 +137,20 @@ def handle_text(message):
 
 @bot.message_handler(commands=["start"])
 def handle_text(message):
-    people.append(message.chat.id)
-    people_message[message.chat.id] = message.from_user.id
+    people
+    if startgame == False and message.chat.id in people:
+        bot.send_message(message.chat.id,"Вы уже были добавлены. Ожидайте начала игры")
+    elif startgame == False and message.chat.id not in people:
+        people.append(message.chat.id)
+        people_message[message.chat.id] = message.from_user.id
+        bot.send_message(message.chat.id,"Вы были добавлены. Ожидайте начала игры")
+    else:
+        bot.send_message(message.chat.id,"Игра уже началась. Ожидайте начала следующей игры")
+
+keyboard.add_hotkey("ctrl+space", choice)
+keyboard.add_hotkey("ctrl+1",menu)
+keyboard.add_hotkey("ctrl+2", vote_menu)
+keyboard.add_hotkey("ctrl+3",kick)
 
 @bot.callback_query_handler(func=lambda call: True)
 def handle_callback_query(call):

@@ -34,7 +34,7 @@ def personal_message(people_status):
     trait_status = "Скрыт" if people_status[8][1] == 0 else "Открыт"
     inventory_status = "Скрыт" if people_status[9][1] == 0 else "Открыт"
     hobby_status = "Скрыт" if people_status[7][1] == 0 else "Открыт"
-    text = f"Ваша статистика:\nВозраст: {age[0]} - {age_status}\nПол: {sex[0]} - {sex_status}\nТип телосложения: {body_type[0]} - {body_type_status}\nРост: {height[0]} - {height_status}\nРабота: {work[0]} - {work_status}\nФобия: {phobia[0]} - {phobia_status}\nСостояние здоровья: {health[0]} - {health_status}\nХобби: {hobby[0]} - {hobby_status}\nЧерта характера: {trait[0]} - {trait_status}\nВ инвентаре: {inventory[0]} - {inventory_status}\nПояснение:\n{work[0]} - {work_explanation}\n{phobia[0]} - {phobia_explanation}"
+    text = f"Ваша статистика:\nВозраст: {age[0]} - {age_status}\nПол: {sex[0]} - {sex_status}\nТип телосложения: {body_type[0]} - {body_type_status}\nРост: {height[0]} - {height_status}\nРабота: {work[0]} - {work_status}\nФобия: {phobia[0]} - {phobia_status}\nСостояние здоровья: {health[0]} - {health_status}\nХобби: {hobby[0]} - {hobby_status}\nЧерта характера: {trait[0]} - {trait_status}\nВ инвентаре: {inventory[0]} - {inventory_status}\n‼Пояснение‼:\n{work[0]} - {work_explanation}\n{phobia[0]} - {phobia_explanation}"
     return text
 
 def global_message(username,people_status):
@@ -73,3 +73,17 @@ def global_lose(name):
 def personal_lose():
     text = "Вы были исключены голосованием."
     return text
+
+class error:
+    def dontstartgame():
+        text = "Ошибка. Игра ещё не началась!"
+        return text
+    def startgame():
+        text = "Ошибка. Игра уже началась!"
+        return text
+    def emptyvotelist():
+        text = "Ошибка. Список голования пуст!"
+        return text
+    def emptyplayerlist():
+        text = "Ошибка. Список игроков пуст!"
+        return text
