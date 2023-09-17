@@ -107,7 +107,6 @@ def kick():
         print("Игрок", index, "был выбран голосованием")
     kick = int(input("Введите номер игрока, который будет изгнан")) - 1
     kick_index = nick_name.index(max_indices[int(kick)])
-    print(kick_index)
     bot.send_message(people[kick_index],config.personal_lose())
     bot.send_message(config.chat_id(),config.global_lose(nick_name[kick_index]))
     people.remove(people[kick_index])
