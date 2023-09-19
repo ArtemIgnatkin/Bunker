@@ -43,7 +43,8 @@ def choice():
                 inventory = [inventory0[random.randint(0,len(inventory0) - 1)],0]#предмет 
                 sex0 = game.sex()
                 sex = [sex0[random.randint(0,len(sex0) - 1)],0]#пол
-                age = [random.randint(18,60),0]#возраст
+                probabilitiesage = {'A': 0.7, 'B': 0.3}
+                age = [random.randint(18,40) if randomizer(probabilitiesage) == "B" else random.randint(41,70),0]#возраст
                 body_type0 = game.body_type()
                 body_type = [body_type0[random.randint(0,len(body_type0) - 1)],0]#телосложение
                 height = [random.randint(150,200),0]
@@ -53,9 +54,9 @@ def choice():
                 phobia = [phobia0[random.randint(0,len(phobia0) - 1)],0]#фобия
                 phobia_explanation0 = game.phobia_explanation()
                 phobia_explanation = phobia_explanation0[phobia[0]]#фобия пояснение
-                probabilities = {'A': 0.6, 'B': 0.4}
+                probabilitieshealth = {'A': 0.6, 'B': 0.4}
                 health0 = game.health()
-                health = [health0[random.randint(0,49)] if randomizer(probabilities) == "B" else "Здоров",0]
+                health = [health0[random.randint(0,49)] if randomizer(probabilitieshealth) == "B" else "Здоров",0]
                 trait0 = game.trait()
                 trait = [trait0[random.randint(0,len(trait0) - 1)],0]#черта характера
                 work0 = game.work()
