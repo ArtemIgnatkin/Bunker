@@ -39,30 +39,30 @@ def choice():
             bot.send_message(config.chat_id(),"Игра началась!")
             for i in range(0,len(people)):
                 bot.send_message(people[i],"Игра началась!")
-                inventory0 = game.inventory()
-                inventory = [inventory0[random.randint(0,len(inventory0) - 1)],0]#предмет 
-                sex0 = game.sex()
-                sex = [sex0[random.randint(0,len(sex0) - 1)],0]#пол
+                inventory = game.inventory()
+                inventory = [inventory[random.randint(0,len(inventory) - 1)],0]#предмет 
+                sex = game.sex()
+                sex = [sex[random.randint(0,len(sex) - 1)],0]#пол
                 probabilitiesage = {'A': 0.7, 'B': 0.3}
                 age = [random.randint(18,40) if randomizer(probabilitiesage) == "B" else random.randint(41,70),0]#возраст
-                body_type0 = game.body_type()
-                body_type = [body_type0[random.randint(0,len(body_type0) - 1)],0]#телосложение
+                body_type = game.body_type()
+                body_type = [body_type[random.randint(0,len(body_type) - 1)],0]#телосложение
                 height = [random.randint(150,200),0]
-                hobby0 = game.hobby()
-                hobby = [hobby0[random.randint(0,len(hobby0) - 1)],0]#хобби
-                phobia0 = game.phobia()
-                phobia = [phobia0[random.randint(0,len(phobia0) - 1)],0]#фобия
-                phobia_explanation0 = game.phobia_explanation()
-                phobia_explanation = phobia_explanation0[phobia[0]]#фобия пояснение
+                hobby = game.hobby()
+                hobby = [hobby[random.randint(0,len(hobby) - 1)],0]#хобби
+                phobia = game.phobia()
+                phobia = [phobia[random.randint(0,len(phobia) - 1)],0]#фобия
+                phobia_explanation = game.phobia_explanation()
+                phobia_explanation = phobia_explanation[phobia[0]]#фобия пояснение
                 probabilitieshealth = {'A': 0.6, 'B': 0.4}
-                health0 = game.health()
-                health = [health0[random.randint(0,49)] if randomizer(probabilitieshealth) == "B" else "Здоров",0]
-                trait0 = game.trait()
-                trait = [trait0[random.randint(0,len(trait0) - 1)],0]#черта характера
-                work0 = game.work()
-                work = [work0[random.randint(0,len(work0) - 1)],0]#работа
-                work_explanation0 = game.work_explanation()
-                work_explanation = work_explanation0[work[0]]#работа пояснение
+                health = game.health()
+                health = [health[random.randint(0,49)] if randomizer(probabilitieshealth) == "B" else "Здоров",0]
+                trait = game.trait()
+                trait = [trait[random.randint(0,len(trait) - 1)],0]#черта характера
+                work = game.work()
+                work = [work[random.randint(0,len(work) - 1)],0]#работа
+                work_explanation = game.work_explanation()
+                work_explanation = work_explanation[work[0]]#работа пояснение
                 people_status[people[i]] = [age,sex,body_type,height,work,phobia,health,hobby,trait,inventory,work_explanation,phobia_explanation]
                 bot.send_message(people[i],config.personal_message(people_status[people[i]]))
             for i in range(0, len(people)):
@@ -96,7 +96,7 @@ def vote_menu():
     else:
         for i in range(0,len(people)):
             keyboard0 = types.InlineKeyboardMarkup()
-            for n in range(0,len(people)):
+            for _ in range(0,len(people)):
                 chat = bot.get_chat_member(people[i],people_message[people[i]])
                 username = chat.user.username
                 keyboard0.add(types.InlineKeyboardButton(text=f"{username}", callback_data=username))
@@ -129,12 +129,6 @@ def kick():
                 vote = {}
         except Exception:
             print(config.error.emptyvotelist())
-
-
-@bot.message_handler(commands=["check"])
-def handle_text(message):
-    print(len(vote), len(people))
-    print(vote)
 
 @bot.message_handler(commands=["start"])
 def handle_text(message):
