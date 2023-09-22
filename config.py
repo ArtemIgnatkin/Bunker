@@ -1,5 +1,5 @@
 def token():
-    text="6681458209:AAG0OlHl8I9bSNY0iPK4ykOGtvp5WbFfAbo"
+    text="6681458209:AAGV0sZP32UxB25rX5K5DhMuw1I46rY6nKA"
     return text
 def threads():
     text=32
