@@ -59,7 +59,7 @@ def global_message(username,people_status):
     trait_status = "Скрыт" if people_status[8][1] == 0 else trait[0]
     health_status = "Скрыт" if people_status[6][1] == 0 else health[0]
     inventory_status = "Скрыт" if people_status[9][1] == 0 else inventory[0]
-    text = f"Статистика {username}:\nВозраст: {age_status}\nПол: {sex_status}\nТип телосложения: {body_type_status}\nРост: {height_status}\nРабота: {work_status}\nФобия: {phobia_status}\nСостояние здоровьяс: {health_status}\nХобби: {hobby_status}\nЧерта характера: {trait_status}\nВ инвентаре: {inventory_status}"
+    text = f"Статистика {username}:\nВозраст: {age_status}\nПол: {sex_status}\nТип телосложения: {body_type_status}\nРост: {height_status}\nРабота: {work_status}\nФобия: {phobia_status}\nСостояние здоровья: {health_status}\nХобби: {hobby_status}\nЧерта характера: {trait_status}\nВ инвентаре: {inventory_status}"
     return text
 
 def vote_message():
