@@ -1,15 +1,19 @@
 def token():
     text="6681458209:AAGV0sZP32UxB25rX5K5DhMuw1I46rY6nKA"
     return text
+
 def threads():
     text=32
     return text
+
 def chat_id():
     text=-1001951370230
     return text
+
 def commands():
     text="Комманды:\nctrl+space - старт игры (выдача характеристик)\nctrl+1 - открытие характеристик\nctrl+2 - меню голосования\nctrl+3 - кик игрока"
     return text
+
 def personal_message(people_status):
     people_status = people_status
     age = people_status[0]
