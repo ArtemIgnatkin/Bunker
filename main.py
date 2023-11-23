@@ -39,30 +39,20 @@ def choice():
             bot.send_message(config.chat_id(),"Игра началась!")
             for i in range(0,len(people)):
                 bot.send_message(people[i],"Игра началась!")
-                inventory = game.inventory()
-                inventory = [inventory[random.randint(0,len(inventory) - 1)],0]#предмет 
-                sex = game.sex()
-                sex = [sex[random.randint(0,len(sex) - 1)],0]#пол
+                inventory = [game.inventory()[random.randint(0,len(game.inventory()) - 1)],0]#предмет 
+                sex = [game.sex()[random.randint(0,len(game.sex()) - 1)],0]#пол
                 probabilitiesage = {'A': 0.7, 'B': 0.3}
                 age = [random.randint(18,40) if randomizer(probabilitiesage) == "B" else random.randint(41,70),0]#возраст
-                body_type = game.body_type()
-                body_type = [body_type[random.randint(0,len(body_type) - 1)],0]#телосложение
-                height = [random.randint(150,200),0]
-                hobby = game.hobby()
-                hobby = [hobby[random.randint(0,len(hobby) - 1)],0]#хобби
-                phobia = game.phobia()
-                phobia = [phobia[random.randint(0,len(phobia) - 1)],0]#фобия
-                phobia_explanation = game.phobia_explanation()
-                phobia_explanation = phobia_explanation[phobia[0]]#фобия пояснение
+                body_type = [game.body_type()[random.randint(0,len(game.body_type()) - 1)],0]#телосложение
+                height = [random.randint(150,200),0]#рост
+                hobby = [game.hobby()[random.randint(0,len(game.hobby()) - 1)],0]#хобби
+                phobia = [game.phobia()[random.randint(0,len(game.phobia()) - 1)],0]#фобия
+                phobia_explanation = game.phobia_explanation()[phobia[0]]#фобия пояснение
                 probabilitieshealth = {'A': 0.6, 'B': 0.4}
-                health = game.health()
-                health = [health[random.randint(0,49)] if randomizer(probabilitieshealth) == "B" else "Здоров",0]
-                trait = game.trait()
-                trait = [trait[random.randint(0,len(trait) - 1)],0]#черта характера
-                work = game.work()
-                work = [work[random.randint(0,len(work) - 1)],0]#работа
-                work_explanation = game.work_explanation()
-                work_explanation = work_explanation[work[0]]#работа пояснение
+                health = [game.health()[random.randint(0,49)] if randomizer(probabilitieshealth) == "B" else "Здоров",0]
+                trait = [game.trait()[random.randint(0,len(game.trait()) - 1)],0]#черта характера
+                work = [game.work()[random.randint(0,len(game.work()) - 1)],0]#работа
+                work_explanation = game.work_explanation()[work[0]]#работа пояснение
                 people_status[people[i]] = [age,sex,body_type,height,work,phobia,health,hobby,trait,inventory,work_explanation,phobia_explanation]
                 bot.send_message(people[i],config.personal_message(people_status[people[i]]))
             for i in range(0, len(people)):
