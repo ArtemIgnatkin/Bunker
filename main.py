@@ -123,16 +123,16 @@ def kick():
 
 @bot.message_handler(commands=["start"])
 def handle_text(message):
-    people
-    if startgame == False and message.chat.id in people:
-        bot.send_message(message.chat.id,"Вы уже были добавлены. Ожидайте начала игры")
-    elif startgame == False and message.chat.id not in people:
-        people.append(message.chat.id)
-        people_message[message.chat.id] = message.from_user.id
-        bot.send_message(message.chat.id,"Вы были добавлены. Ожидайте начала игры")
+    chat_id = message.chat.id
+    if startgame == False and chat_id not in people:
+        people.append(chat_id)
+        people_message[chat_id] = message.from_user.id
+        bot.send_message(chat_id,"Вы были добавлены. Ожидайте начала игры")
+    elif startgame == False and chat_id in people:
+        bot.send_message(chat_id,"Вы уже были добавлены. Ожидайте начала игры")
     else:
-        bot.send_message(message.chat.id,"Игра уже началась. Ожидайте начала следующей игры")
-
+        bot.send_message(chat_id,"Игра уже началась. Ожидайте начала следующей игры")
+        
 keyboard.add_hotkey("ctrl+space", choice)
 keyboard.add_hotkey("ctrl+1",menu)
 keyboard.add_hotkey("ctrl+2", vote_menu)
