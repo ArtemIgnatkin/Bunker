@@ -74,6 +74,10 @@ def personal_lose():
     text = "Вы были исключены голосованием."
     return text
 
+def pass_vote():
+    text = "Вы пропустили голосование"
+    return text
+
 class error:
     def dontstartgame():
         text = "Ошибка. Игра ещё не началась!"

@@ -87,9 +87,10 @@ def vote_menu():
         for i in range(0,len(people)):
             keyboard0 = types.InlineKeyboardMarkup()
             for _ in range(0,len(people)):
-                chat = bot.get_chat_member(people[i],people_message[people[i]])
-                username = chat.user.username
-                keyboard0.add(types.InlineKeyboardButton(text=f"{username}", callback_data=username))
+              chat = bot.get_chat_member(people[i],people_message[people[i]])
+              username = chat.user.username
+              keyboard0.add(types.InlineKeyboardButton(text=f"{username}", callback_data=username))
+            keyboard0.add(types.InlineKeyboardButton(text="Пропустить", callback_data="passvote"))
             msg = bot.send_message(people[i], "Кого вы хотите кикнуть?:", reply_markup=keyboard0)
             kick_message[people[i]] = msg.message_id
             keyboard0 = 0
@@ -163,5 +164,7 @@ def handle_callback_query(call):
             vote[username] = summ + 1
             bot.edit_message_text(chat_id=call.from_user.id,message_id=kick_message[call.from_user.id],text=config.vote_message())
         print(vote)
+    elif call.data == "passvote":
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=config.pass_vote())
 
 bot.polling(none_stop=True)
